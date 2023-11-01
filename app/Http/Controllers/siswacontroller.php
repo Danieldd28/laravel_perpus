@@ -23,7 +23,7 @@ class siswacontroller extends Controller
             'alamat' => 'required',
             'username' => 'required',
             'password' => 'required',
-            'id_kelas' => 'required'    
+            'id_kelas' => 'required'
         ]);
         if ($validator->fails()) {
             return response()->json($validator->errors()->toJson());
@@ -52,7 +52,7 @@ class siswacontroller extends Controller
             'alamat' => 'required',
             'username' => 'required',
             'password' => 'required',
-            'id_kelas' => 'required'  
+            'id_kelas' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -77,7 +77,7 @@ class siswacontroller extends Controller
     }
     public function deletesiswa($id)
     {
-        $hapus=siswa::where('id_siswa',$id)->delete();
+        $hapus = siswa::where('id_siswa', $id)->delete();
         if ($hapus) {
             return response()->json(['status' => true, 'message' => 'Sukses Masbro']);
         } else {
@@ -86,8 +86,7 @@ class siswacontroller extends Controller
     }
     public function getsiswaid($id)
     {
-        $dt=siswa::where('id_siswa',$id)->first();
+        $dt = siswa::where('id_siswa', $id)->first();
         return Response()->json($dt);
     }
-
 }

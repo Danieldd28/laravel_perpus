@@ -1,10 +1,12 @@
 <?php
+
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Models\kelas;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Facades\Hash;
+
 class kelascontroller extends Controller
 {
     public function getkelas()
@@ -38,7 +40,7 @@ class kelascontroller extends Controller
         $validator = Validator::make($req->all(), [
             'nama_kelas' => 'required',
             'kelompok' => 'required',
-            'angkatan' => 'required' 
+            'angkatan' => 'required'
         ]);
 
         if ($validator->fails()) {
@@ -59,7 +61,7 @@ class kelascontroller extends Controller
     }
     public function deletekelas($id)
     {
-        $hapus=kelas::where('id_kelas',$id)->delete();
+        $hapus = kelas::where('id_kelas', $id)->delete();
         if ($hapus) {
             return response()->json(['status' => true, 'message' => 'Sukses Masbro']);
         } else {
@@ -68,8 +70,7 @@ class kelascontroller extends Controller
     }
     public function getkelasid($id)
     {
-        $dt=kelas::where('id_kelas',$id)->first();
+        $dt = kelas::where('id_kelas', $id)->first();
         return Response()->json($dt);
     }
-
 }
