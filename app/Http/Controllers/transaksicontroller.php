@@ -2,9 +2,9 @@
 
 namespace App\Http\Controllers;
 
-use App\Models\detailpeminjamanbukumodel;
-use App\Models\pengembalianbukumodel;
-use App\Models\peminjamanbukumodel;
+use App\Models\detailpeminjaman;
+use App\Models\pengembalianbuku;
+use App\Models\peminjamanbuku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
@@ -23,7 +23,7 @@ class transaksicontroller extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $save = peminjamanbukumodel::create([
+        $save = peminjamanbuku::create([
             'id_siswa' => $req->input('id_siswa'),
             'tanggal_pinjam' => $req->input('tanggal_pinjam'),
             'tanggal_kembali' => $req->input('tanggal_kembali')
@@ -45,7 +45,7 @@ class transaksicontroller extends Controller
         if ($validator->fails()) {
             return response()->json($validator->errors(), 400);
         }
-        $save = peminjamanbukumodel::create([
+        $save = peminjamanbuku::create([
             'id_peminjaman_buku' => $id,
             'id_buku' => $req->input('id_buku'),
             'qty' => $req->input('qty')
@@ -65,10 +65,10 @@ class transaksicontroller extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $cek_kembali = pengembalianbukumodel::where('id_peminjaman_buku', $req->input('id_peminjaman_buku'))->count();
+        $cek_kembali = pengembalianbuku::where('id_peminjaman_buku', $req->input('id_peminjaman_buku'))->count();
 
         if ($cek_kembali == 0) {
-            $dt_kembali = peminjamanbukumodel::where('id', $req->input('id_peminjaman_buku'))->first();
+            $dt_kembali = peminjamanbuku::where('id', $req->input('id_peminjaman_buku'))->first();
             $tanggal_sekarang = Carbon::now()->format('Y-m-d');
             $tanggal_kembali = new Carbon($dt_kembali->tanggal_kembali);
             $dendaperhari = 1500;
@@ -80,7 +80,7 @@ class transaksicontroller extends Controller
                 $denda = 0;
             }
 
-            $save = pengembalianbukumodel::create([
+            $save = pengembalianbuku::create([
                 'id_peminjaman_buku' => $req->input('id_peminjaman_buku'),
                 'tanggal_pengembalian' => $tanggal_sekarang,
                 'denda' => $denda,
