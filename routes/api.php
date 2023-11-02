@@ -39,4 +39,4 @@ Route::delete('/deletekelas/{id}',[kelascontroller::class,'deletekelas']);
 //transaksi
 Route::post('/pinjambuku',[transaksicontroller::class,'pinjambuku']);
 Route::post('/tambahitem/{id}',[transaksicontroller::class,'tambahitem']);
-Route::post('/mengembalikanbuku/{id}',[transaksicontroller::class,'mengembalikanbuku']);
+Route::post('/mengembalikanbuku',[transaksicontroller::class,'mengembalikanbuku']);

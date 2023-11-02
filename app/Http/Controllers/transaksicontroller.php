@@ -5,6 +5,7 @@ namespace App\Http\Controllers;
 use App\Models\detailpeminjaman;
 use App\Models\pengembalianbuku;
 use App\Models\peminjamanbuku;
+use App\Models\buku;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Validator;
 use Illuminate\Support\Carbon;
@@ -30,9 +31,9 @@ class transaksicontroller extends Controller
         ]);
 
         if ($save) {
-            return response()->json(['success' => true]);
+            return response()->json(['successlur' => true]);
         } else {
-            return response()->json(['success' => false]);
+            return response()->json(['gagal' => false]);
         }
     }
 
@@ -40,6 +41,7 @@ class transaksicontroller extends Controller
     {
         $validator = Validator::make($req->all(), [
             'id_buku' => 'required',
+            'id_siswa' => 'required',
             'qty' => 'required'
         ]);
         if ($validator->fails()) {
@@ -56,7 +58,7 @@ class transaksicontroller extends Controller
             return response()->json(['success' => false]);
         }
     }
-    public function mengembalikanBuku(Request $req, $id)
+    public function mengembalikanbuku(Request $req)
     {
         $validator = Validator::make($req->all(), [
             'id_peminjaman_buku' => 'required'
@@ -65,10 +67,10 @@ class transaksicontroller extends Controller
             return response()->json($validator->errors(), 400);
         }
 
-        $cek_kembali = pengembalianbuku::where('id_peminjaman_buku', $req->input('id_peminjaman_buku'))->count();
+        $cek_kembali = pengembalianbuku::where('id_peminjaman_buku', $req->input('id_peminjaman_buku'));
 
-        if ($cek_kembali == 0) {
-            $dt_kembali = peminjamanbuku::where('id', $req->input('id_peminjaman_buku'))->first();
+        if ($cek_kembali->count() == 0) {
+            $dt_kembali = peminjamanbuku::where('id_peminjaman_buku', $req->input('id_peminjaman_buku'))->first();
             $tanggal_sekarang = Carbon::now()->format('Y-m-d');
             $tanggal_kembali = new Carbon($dt_kembali->tanggal_kembali);
             $dendaperhari = 1500;
